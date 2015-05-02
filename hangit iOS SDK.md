@@ -42,7 +42,7 @@ You will need to implement the `sessionManager` method of the custom sub-class a
 
 Object methods:
 
-```
+```objective-c
 #import <HangitSDK/HangitSDK.h>
 
 @interface ViewController : UIViewController <SessionManagerDelegate>
