@@ -59,7 +59,7 @@ Object methods:
 
 Declare `SessionManager` inside the [viewDidLoad](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIViewController_Class/) function.  This enables the app to receive push notifications, and present offers to users, as indicated in the code below.  Note that `startSessionUsingLocation:@"YOURAPIKEY` enables your app to communicate with the hangit service, and requires your API authentication key.
 
-```
+```objective-c
 self.sessionManager = [SessionManager sharedInstance];
 
 self.sessionManager.delegate = self;
@@ -100,7 +100,7 @@ For the purpose of example, we will implement methods for the `ViewController.m`
 
 You will implement an Observer method `NSNotificationCenter` that will consume location update notification received by the Hangit SDK, as illustrated below:
 
-```
+```objective-c
 [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationNotification:) name:@"hangitLocationNotification" object:nil];
 
 - (void) locationNotification:(NSNotification *)notification{
@@ -116,7 +116,7 @@ You will implement an Observer method `NSNotificationCenter` that will consume l
 
 You will implement a callback method `didreceiveNotification` in your app's `AppDelegate.m` class, to receive the callback from your app that a Hangit location notification has been consumed.  See the sample below for the implementation:
 
-```
+```objective-c
 /* Hangit AppDelegate NotificaitonManager Requirement */
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
@@ -145,7 +145,7 @@ To consume Hangit campaigns and offers, the following is required:
 
 To setup your app to consume offers, add the `dataservice` sub-object to `ViewController.m` and implement the callback method as below:
 
-```
+```objective-c
 CLLocation * myLocation = [[CLLocation alloc] initWithLatitude:28.550 longitude:-81.400];
 
 [[DataService instance] getLocationsWithLocation:myLocation sessionKey:@"1234567890" completion:^(NSMutableArray *targetsArray, NSError *error) {
@@ -159,7 +159,7 @@ CLLocation * myLocation = [[CLLocation alloc] initWithLatitude:28.550 longitude:
 
 To setup your app to consume offers, add the `dataservice` sub-object to `ViewController.m` and implement the callback method as below:
 
-```
+```objective-c
 CLLocation * myLocation = [[CLLocation alloc] initWithLatitude:28.550 longitude:-81.400];
 
 [[DataService instance] getOffersWithLocation:myLocation sessionKey:@"1234567890" completion:^(NSMutableArray *offersArray, NSError *error) {
@@ -175,7 +175,7 @@ You can implement the Hangit offers map and display it on yoru View Controller, 
 
 To place the Hangit Offers map on your View Controller, implement the `mpModule` mthod as part of the `ViewController.m` sub class, or other custom sub-class.   The implementation is described below:
 
-```
+```objective-c
 self.mapManager = [[MapManager alloc] initWithNibName:@"MapManager"
         bundle:[NSBundle bundleWithPath:[[NSBundle mainBundle]
         pathForResource:@"HangitResources" ofType:@"bundle"]]];
@@ -197,7 +197,7 @@ You will need to implement the `SettingsController` method in your custom sub-cl
 
 The implementation is described below:
 
-```
+```objective-c
 @property (nonatomic, strong) SettingsController * settingsController;
 ```
 
