@@ -1,7 +1,18 @@
 
 <h1>Hangit iOS SDK</h1>
 
-**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+- [Hangit iOS SDK](#)
+	- [Overview](#)
+	- [ Getting Started](#)
+	- [Session Establishment](#)
+	- [Receiving Location Updates](#)
+		- [SDK Framework](#)
+		- [Implementing the Methods](#)
+		- [Callback Method](#)
+	- [Consuming Hangit Campaigns and Offers](#)
+		- [Hangit Offers](#)
+	- [Hangit Offers Map](#)
+	- [Hangit  SDK Settings View](#)
 
 <h2>Overview</h2>
 
