@@ -59,7 +59,8 @@ Object methods:
 
 Declare `SessionManager` inside the [viewDidLoad](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIViewController_Class/) function.  This enables the app to receive push notifications, and present offers to users, as indicated in the code below.  Note that `startSessionUsingLocation:@"YOURAPIKEY` enables your app to communicate with the hangit service, and requires your API authentication key.
 
-```self.sessionManager = [SessionManager sharedInstance];
+```
+self.sessionManager = [SessionManager sharedInstance];
 
 self.sessionManager.delegate = self;
 
