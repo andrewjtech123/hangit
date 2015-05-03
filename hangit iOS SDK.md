@@ -14,22 +14,114 @@
 	- [Hangit Offers Map](#)
 	- [Hangit  SDK Settings View](#)
 
+
 <h2>Overview</h2>
 
-You can use the Hangit platform to leverage location awareness for your iOS application.  The Hangit SDK framework performs location monitoring and records user location positioning information for delivery to the Hangit service.  The SDK also delivers location-based alert notifications to your app in a timely fashion, and enables your app to consume Hangit campaign events: JSON formatted rich messages that provide the user with timely offers and redeemable coupons.  Users click through to deep links back to your app.
+You can use the Hangit platform to leverage location awareness for your iOS application.  The Hangit SDK framework performs location monitoring and records user location positioning information for delivery to the Hangit service.  The SDK also delivers location-based alert notifications to your app in a timely fashion, and enables your app to consume Hangit campaign events and offers: JSON formatted rich messages that provide the user with timely engagement and redeemable coupons.  Users click through to deep links back to your app.
 
 ![enter image description here](https://lh3.googleusercontent.com/-3v0YFIrrfVY/VUEys0RemPI/AAAAAAAAA3g/TSzazAEXpT8/s0/hangit.png "hangit.png")
 
 A typical Hangit SDK implementation includes the following:
 
-1. Establishes a session between your app and the SDK, using custom sub-class ViewController.h*
+1. Establishes a session between your app and the SDK, using custom sub-class `ViewController.h*`
 2. Enables the Hangit location monitoring service for you app and SDK
-3. Enables the app to consume raw JSON campaign data to display "rich" messages to the user.
-4. Enables the app to consume raw JSON hangit campaign offers.
+3. Enables the app to consume raw JSON campaigns and offers.
 *required.
 
 
 <h2> Getting Started</h2>
+
+>**Latest Version:** The latest version of the Hangit iOS SDK Framework is 1.1.3 and was released April, 22nd 2015.
+
+<h3>Installing the iOS SDK Framework</h3>
+
+In this section we’ll run through the steps to add our Framework to your Xcode project.  If this is your first time out with Xcode and iOS App development, then we recommend you read Apple’s [introductory guide](https://developer.apple.com/library/ios/referencelibrary/GettingStarted/RoadMapiOS/index.html).
+
+>**Warning:** You will not be able to monitor changes for CoreMotion using the Simulator, you will need to test and run your project on a real device.
+
+There are two possible paths for downloading and installing the Hangit SDK framework for iOS.
+
+ - Clone the Hangit SDK Framework, or
+ - Use CocoaPods
+
+<h4>Clone the Hangit SDK Framework</h4>
+
+ - Clone the git repo - git clone https://github.com/hangit/iOS_SDK.git
+ - Change to the project folder - cd iOS_SDK/
+ - Run the Test project
+
+To add the framework and bundle to your own project goto the section ["Add the SDK Framework files to your project"](https://stackedit.io/editor#add-the-sdk-framework-files-to-your-project)
+
+<h4>CocoaPods</h4>
+
+ - Create or edit your Podfile
+ - Add this to your Podfile: `pod 'Hangit', '~> 1.1.3'`
+ - Run pod install
+ - Open the new CocoaPods workspace for your project and jump to [Session Establishment](https://stackedit.io/editor#session-establishment)
+
+
+<h4>Add the SDK Framework files to your project</h4>
+
+ - Create a new project in Xcode and give it a name.
+ - Create an empty folder in your project directory.
+ - Copy the resource bundle **HangitResources.bundle** to your new folder.
+ - Choose **File > Add Files** to Your ProjectName.
+ - Select your new folder containing the SDK files
+ - Drag the Hangit.framework file to your Embedded Binaries section under **General** for your projects target.
+
+
+<h4>Link the SDK files to your project</h4>
+
+In XCode 6, the SDK will be linked automatically to your project.
+
+If you need to manually link the files, or just check that they are there, you can use the following procedure.
+
+>**Note:** Optional Step
+
+ - In the project navigator, select your project.
+ - Click **Build Phases -> Link Binary With Libraries.**
+ - Check that Hangit.framework is already added, 
+
+if it isn’t:  
+
+ - Click the **Add button (+).**
+ - Select Hangit.framework 
+ - Click **Add.**
+
+Your project now references the Hangit SDK Framework and your installation is complete.
+
+
+----------
+
+<h3>iOS 8 Compatibility</h3>
+
+For your app to work correctly with iOS 8 you need to add a new key to your project's plist file, and you need to turn on **Background Modes** in Project **Capabilities**
+
+<h4>plist</h4>
+
+To add a new key to your project’s plist file.
+
+ - In the project navigator, select your project.
+ - Select your projects Info.plist file
+
+```
+<key>NSLocationAlwaysUsageDescription</key>
+<string>Uses background location</string>
+```
+
+>The string can be empty, or defined by you the developer, the content is not important.
+
+<h4>Project Capabilities</h4>
+
+To properly setup Project capabilities
+
+ - In the project navigator, select your project.
+ - Select your projects **Target** and choose **Capabilities**
+ - Turn on Background Modes.
+ - Select **"Location updates"** and **"Background fetch"**
+
+
+----------
 
 
 <h2>Session Establishment</h2>
@@ -75,7 +167,7 @@ self.sessionKey = [_sessionManager startSessionUsingLocation:@"YOURAPIKEY"];
 
 <h2>Receiving Location Updates</h2>
 
-You can setup your app to consume Location updates from the Hangit SDK.  The Hangit SDK monitors for changes in device location and sends notification to your app.  You can then consume these notifications for your app's location-based needs, or you can use the notifications to call the Hangit service for Hangit campaigns and offers.
+You can setup your app to consume Location updates from the Hangit SDK.  The Hangit SDK monitors for changes in device location and sends notification to your app.  You can then consume these notifications for your app's location-based needs.
 
 -insert diagram
 
@@ -201,7 +293,7 @@ The implementation is described below:
 @property (nonatomic, strong) SettingsController * settingsController;
 ```
 
-```
+```objective-c
 self.settingsController = [[SettingsController alloc] initWithNibName:@"SettingsController"
     bundle:[NSBundle bundleWithPath:[[NSBundle mainBundle]
     pathForResource:@"HangitResources" ofType:@"bundle"]]];
