@@ -155,8 +155,6 @@ self.sessionKey = [_sessionManager startSessionUsingLocation:@"YOURAPIKEY"];
 
 You can setup your app to consume Location updates from the Hangit SDK.  The Hangit SDK monitors for changes in device location and sends notification to your app.  You can then consume these notifications for your app's location-based needs.
 
--insert diagram
-
 To receive location updates from the Hangit SDK the following is required:
 
  - include the SDK framework
