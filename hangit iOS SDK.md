@@ -10,7 +10,7 @@ You can use the Hangit platform to leverage location awareness for your iOS appl
 A typical Hangit SDK implementation includes the following:
 
 1. Establishes a session between your app and the SDK, using custom sub-class `ViewController.h*`
-2. Enables the Hangit location monitoring service for you app and SDK
+2. Enables the Hangit location monitoring service for your app and SDK
 3. Enables the app to consume raw JSON campaigns and offers.
 *required.
 
