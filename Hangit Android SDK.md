@@ -22,7 +22,7 @@ A successful implementation of the Hangit Android SDK requires the following:
 
 <h3>Building the Project</h3>
 
-For the purpose of example in this SDK, [Gradle](https://gradle.org/whygradle/) is used to manage the language build and dependencies.  However, it should be noted that Gradle usage is optional, and it is possibel to use a standard .aar file using [Eclipse/maven](http://www.iphonedroid.com/blog/en/utilizar-ficheros-aar-en-eclipse/#.VUedf9pVikp), for example.
+For the purpose of example in this SDK, [Gradle](https://gradle.org/whygradle/) is used to manage the language build and dependencies.  However, it should be noted that Gradle usage is optional, and it is possible to use a standard .aar file using [Eclipse/maven](http://www.iphonedroid.com/blog/en/utilizar-ficheros-aar-en-eclipse/#.VUedf9pVikp), for example.
 
 See the following [article](http://www.iphonedroid.com/blog/en/utilizar-ficheros-aar-en-eclipse/#.VUedf9pVikp) for more information.
 
