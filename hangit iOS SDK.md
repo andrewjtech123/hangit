@@ -13,13 +13,17 @@ The SDK allows your application to observe these events and deep link back into 
 
 ![enter image description here](https://lh3.googleusercontent.com/-3v0YFIrrfVY/VUEys0RemPI/AAAAAAAAA3g/TSzazAEXpT8/s0/hangit.png "hangit.png")
 
-A typical HangIt SDK implementation includes the following:
+There are three basic implementation of the Hangit SDK. Each provides a different level of customization for the developer.
 
-1. Establishes a session between your app and the SDK, using custom sub-class `ViewController.h*`
-2. Enables the HangIt location monitoring service for your app and SDK
-3. Enables the app to consume raw JSON campaigns and offers.
+ 1. Full Message Flow ** RECOMMENDED **
+ 2. Alert Notification Only
+ 3. Capture the Trigger on the Location Event Only
 
-*required.
+![enter image description here](https://lh3.googleusercontent.com/-Xsf4iDY30-o/VVDwY9-VDSI/AAAAAAAAA4Y/Gp6B51XOvII/s0/Flow+-+Full+Service.png "Flow - Full Service.png")
+
+The flow chart above illustrates a full message flow which presents a local event trigger to your app, initiates a local push notification to the user, and loads the "rich" Hangit event or offer.  It is also possible to only implement the event trigger and local push notification, or simply the event notification to the app.  
+
+This SDK will cover the fastest way to get started with Hangit using event trigger only, and will also cover the fill message flow in later sections.
 
 
 <h2> Getting Started</h2>
@@ -96,7 +100,7 @@ See section "Clone the HangIt SDK Framework" above.
  - Create or edit your Podfile
  - Add this to your Podfile: `pod 'Hangit', '~> 1.1.9'
  - Run pod install
- - Open the new CocoaPods workspace for your project and jump to [Session Establishment](https://stackedit.io/editor#session-establishment)
+ - Open the new CocoaPods workspace for your project and jump to the "Implementations" section below.
 
 <h4>plist</h4>
 
@@ -127,19 +131,19 @@ To properly setup Project capabilities for iOS
 ----------
 
 
-<h2>Session Establishment</h2>
+<h1>Implementations</h1>
 
-As part of establishing a session between your app and the SDK, you will enable your app to receive local push notifications and rich messages.  
+Regardless of which implementation you choose, you will need to establish a session with the Hangit SDK.  In this tutorial we will use custom sub-class `ViewController.h` although any custom sub-class will do.  You can then configure the class objects and methods to enable only the features you choose (eg. local push notifications, rich messages).
 
-Use the HangIt API key generated when you registered on the HangIt Portal (portal.hangit.com) to enable communication between the app and the HangIt service.
 
-To setup this behavior you will create a custom sub-class of `UIViewController` called `SessionManagerDelegate`.  In this tutorial we will simply re-use the sub-class `ViewController.h` for this purpose.
+>**Note:** Use the HangIt API key generated when you registered on the HangIt Portal (portal.hangit.com) to enable communication between the app and the HangIt service.
+
+
+<h2>Session Manager Delegate</h2>
+
+To establish the session you will create a custom sub-class of `UIViewController` called `SessionManagerDelegate`.  In this tutorial we will simply re-use the sub-class `ViewController.h` for this purpose.
 
 You will need to implement the `sessionManager` method of the custom sub-class as listed below.  You will also perform additional initialization of this method using the `viewDidLoad()` function.
-
-<h3>SDK Framework</h3>
-
-Import the framework to your `ViewController.m` (you may add this within your AppDelegate.m as well) for simplicity, or to any custom sub-class that you define for [UIViewController](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIViewController_Class/#//apple_ref/occ/instm/UIViewController/viewDidLoad).
 
 Import the framework using the following code:
 
@@ -162,17 +166,10 @@ Import the framework using the following code:
 @property (nonatomic, retain) NSString * sessionKey;
 ```
 
-Declare `SessionManager` inside the [viewDidLoad](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIViewController_Class/) function.  This enables the app to receive local push notifications, and present rich messages to users, as indicated in the code below.  Note that startSessionUsingLocation:@"YOURAPIKEY" enables your app to communicate with the HangIt service, and requires your API authentication key.
+Declare `SessionManager` inside the [viewDidLoad](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIViewController_Class/) function.  Note that `startSessionUsingLocation:@"YOURAPIKEY"` enables your app to communicate with the HangIt service, and requires your API authentication key.
 
-There are three basic implementation of the Hangit SDK. Each provides a different level of customization for the developer.
 
- 1. Full Message Flow ** RECOMMENDED **
- 2. Alert Notification Only
- 3. Capture the Trigger on the Location Event Only
-
-![enter image description here](https://lh3.googleusercontent.com/-Xsf4iDY30-o/VVDwY9-VDSI/AAAAAAAAA4Y/Gp6B51XOvII/s0/Flow+-+Full+Service.png "Flow - Full Service.png")
-
-To keep things simple... these 5 lines of code are all that are needed to initialize and activate the Hangit Location Services. You can add them within your [AppDelegate](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/) or [MainViewController](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIViewController_Class/).
+This is where you configure the behaviour of the implementation.  To only use the event notification event trigger, set the params in the code block below to **NO**.  You can add the lines of code within your [AppDelegate](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/) or [MainViewController](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIViewController_Class/).
 
 ```objective-c
 self.sessionManager = [SessionManager sharedInstance];
@@ -187,24 +184,14 @@ self.sessionManager.presentOfferView = YES;  // If you DO NOT want to display th
 
 self.sessionKey = [self.sessionManager startSessionUsingLocation:@"YOURAPIKEY"];
 ```
+<h2>Location Event Triggers</h2>
 
-<h2>Congratulations!</h2> 
-
-You are now using the Hangit Location Services. You manage your location events within [hangitportal](http://portal.hangit.com).
-
-<h1>Other Hangit SDK Services </h1>
-The Hangit SDK Provides other value-added services in support of your application needs. These are optional and additive features.
-
-<h2>Receiving Location Updates</h2>
-
-You can setup your app to consume location updates from the HangIt SDK.  The HangIt SDK monitors for changes in device location and sends notification to your app.  You can then consume these notifications for your app's location-based needs.
+You can setup your app to receive location event triggers from teh SDK.  The HangIt SDK monitors for changes in device location and sends notification to your app.  
 
 To receive location updates from the HangIt SDK the following is required:
 
- - include the SDK framework
+ - include the SDK framework, as described previously.
  - implement the notification method and callback method
-
-
 
 <h3>Implementing the Methods</h3>
 
@@ -223,6 +210,28 @@ You will implement an Observer method `NSNotificationCenter` that will consume l
     }
 }
 ```
+
+>**Congratulations!** You are now using the Hangit Location Services. You manage your location events within [Hangitportal](http://portal.hangit.com).
+
+<h1>Other Hangit SDK Services </h1>
+The Hangit SDK Provides other value-added services in support of your application needs. These are optional and additive features.
+
+
+<h2>Local Push Notifications</h2>
+
+If you leverage the Hangit location updates to send push notifications to your users, you can leverage the Hangit SDK, to implement a callback method `didreceiveNotification` in your app's `AppDelegate.m` class.  It will receive the callback from your app that a HangIt location notification has been consumed.  See the sample below for the implementation:
+
+```objective-c
+/* Hangit AppDelegate NotificationManager Requirement */
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"hangitNotificationReceived" object:notification];
+
+}
+```
+
+
 <h2>Receiving Alert Notification Callback</h2>
 
 Application may desire to have a deep-link back into their application after an alert notification is presented. This callback feature allows you to receive the event notification and the notification object.
@@ -242,19 +251,7 @@ Application may desire to have a deep-link back into their application after an 
 }
 ```
 
-<h3>Callback Method</h3>
 
-You will implement a callback method `didreceiveNotification` in your app's `AppDelegate.m` class, to receive the callback from your app that a HangIt location notification has been consumed.  See the sample below for the implementation:
-
-```objective-c
-/* Hangit AppDelegate NotificationManager Requirement */
-
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"hangitNotificationReceived" object:notification];
-
-}
-```
 
 <h2>Consuming HangIt Data</h2>
 
